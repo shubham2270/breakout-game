@@ -4,7 +4,7 @@ const ctx = canvas.getContext("2d");
 // draws the ball
 const drawBall = () => {
   ctx.beginPath();
-  ctx.arc(x, y, 15, 0, 2 * Math.PI, false);
+  ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
   ctx.fillStyle = "#ff449f";
   ctx.fill();
   ctx.closePath();
@@ -21,8 +21,35 @@ const drawPaddle = () => {
 
 const detectCollision = () => {
   // Detect if ball is crossing left or right side of box;
-  if (x + dx >= canvas.width || x + dx < 0) {
+  if (x + dx >= canvasW || x + dx < 0) {
     dx = -dx;
+  }
+
+  const paddleStart = x + dx > paddleX; // checks starting of paddle
+  const paddleEnd = x + dx < paddleX + paddleW; // checks end of paddle
+
+  console.log("s:", paddleStart, "e:", paddleEnd);
+
+  //   if (paddleStart && paddleEnd) {
+  //     console.log("--------------------------");
+  //     dy = -dy;
+  //   }
+
+  //   if (y + dy > canvasH - radius) {
+  //     if (paddleStart && paddleEnd) {
+  //       console.log("--------------------------");
+  //       dy = -dy;
+  //     }
+  //   }
+
+  const endOfPaddle = paddleX + paddleW;
+
+  if (y + dy >= canvasH - radius) {
+    console.log("=============");
+    if (x + dx > paddleX && x + dx < endOfPaddle) {
+      dy = -dy;
+      dx = dx + (x + dx - paddleX) / 100;
+    }
   }
 
   // Detect if ball is crossing ceiling of box;
@@ -33,8 +60,8 @@ const detectCollision = () => {
 
 // Set the starting position of ball & default distance it will travel
 const setVariables = () => {
-  x = canvasH / 2;
-  y = canvasW - 25;
+  x = canvasW / 2;
+  y = canvasH - 20;
 
   dx = 5; //small increment in pixels
   dy = -5;
@@ -42,7 +69,7 @@ const setVariables = () => {
 
 // check if ball touches bottom of box & give alert of game over
 const checkGameOver = () => {
-  if (y + dy === canvas.height) {
+  if (y === canvasH - radius) {
     alert("Game Over!");
     clearInterval(interval);
 
@@ -58,7 +85,7 @@ const startGame = () => {
 
     checkGameOver();
 
-    ctx.clearRect(0, 0, canvas.clientWidth, canvas.height);
+    ctx.clearRect(0, 0, canvasW, canvasH);
     drawBall();
     drawPaddle();
   }, 10);
@@ -68,7 +95,8 @@ const canvasH = canvas.height;
 const canvasW = canvas.width;
 
 let x, y, dy, dx, interval;
-let paddleW = 40;
+let radius = 10;
+let paddleW = 30;
 let paddleX = canvasW / 2 - paddleW / 2;
 let paddleY = canvasH - 10;
 setVariables();
