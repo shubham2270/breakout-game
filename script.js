@@ -1,6 +1,32 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
+const canvasH = canvas.height;
+const canvasW = canvas.width;
+
+let rightPressed = false;
+let leftPressed = false;
+
+const handleKeyDown = (e) => {
+  if (e.key === "ArrowRight") {
+    rightPressed = true;
+  }
+
+  if (e.key === "ArrowLeft") {
+    leftPressed = true;
+  }
+};
+
+const handleKeyUp = (e) => {
+  if (e.key === "ArrowRight") {
+    rightPressed = false;
+  }
+
+  if (e.key === "ArrowLeft") {
+    leftPressed = false;
+  }
+};
+
 // draws the ball
 const drawBall = () => {
   ctx.beginPath();
@@ -45,44 +71,53 @@ const detectCollision = () => {
 const setVariables = () => {
   x = canvasW / 2;
   y = canvasH - 20;
-
+  radius = 10;
+  paddleW = 50;
+  paddleX = canvasW / 2 - 40;
+  paddleY = canvasH - 10;
   dx = 5; //small increment in pixels
   dy = -5;
+  rightPressed = false;
+  leftPressed = false;
 };
 
 // check if ball touches bottom of box & give alert of game over
 const checkGameOver = () => {
-  if (y === canvasH - radius) {
+  if (y === canvasH) {
     alert("Game Over!");
     clearInterval(interval);
-
+    interval = null;
     setVariables();
   }
 };
 
 const startGame = () => {
-  interval = setInterval(() => {
-    detectCollision();
-    x = x + dx;
-    y = y + dy;
+  if (!interval) {
+    interval = setInterval(() => {
+      if (rightPressed) {
+        paddleX = paddleX + 5;
+      }
+      if (leftPressed) {
+        paddleX = paddleX - 5;
+      }
+      detectCollision();
+      x = x + dx;
+      y = y + dy;
 
-    checkGameOver();
+      checkGameOver();
 
-    ctx.clearRect(0, 0, canvasW, canvasH);
-    drawBall();
-    drawPaddle();
-  }, 10);
+      ctx.clearRect(0, 0, canvasW, canvasH);
+      drawBall();
+      drawPaddle();
+    }, 20);
+  }
 };
 
-const canvasH = canvas.height;
-const canvasW = canvas.width;
-
-let x, y, dy, dx, interval;
-let radius = 10;
-let paddleW = 30;
-let paddleX = canvasW / 2 - 40;
-let paddleY = canvasH - 10;
+let x, y, dy, dx, interval, radius, paddleW, paddleX, paddleY;
 setVariables();
 drawBall();
 drawPaddle();
 // startGame();
+
+document.addEventListener("keydown", handleKeyDown);
+document.addEventListener("keyup", handleKeyUp);
