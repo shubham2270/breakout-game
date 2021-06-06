@@ -28,27 +28,10 @@ const detectCollision = () => {
   const paddleStart = x + dx > paddleX; // checks starting of paddle
   const paddleEnd = x + dx < paddleX + paddleW; // checks end of paddle
 
-  console.log("s:", paddleStart, "e:", paddleEnd);
-
-  //   if (paddleStart && paddleEnd) {
-  //     console.log("--------------------------");
-  //     dy = -dy;
-  //   }
-
-  //   if (y + dy > canvasH - radius) {
-  //     if (paddleStart && paddleEnd) {
-  //       console.log("--------------------------");
-  //       dy = -dy;
-  //     }
-  //   }
-
-  const endOfPaddle = paddleX + paddleW;
-
   if (y + dy >= canvasH - radius) {
-    console.log("=============");
-    if (x + dx > paddleX && x + dx < endOfPaddle) {
+    if (paddleStart && paddleEnd) {
       dy = -dy;
-      dx = dx + (x + dx - paddleX) / 100;
+      //   dx = dx + (x + dx - paddleX) / 100;
     }
   }
 
@@ -97,9 +80,9 @@ const canvasW = canvas.width;
 let x, y, dy, dx, interval;
 let radius = 10;
 let paddleW = 30;
-let paddleX = canvasW / 2 - paddleW / 2;
+let paddleX = canvasW / 2 - 40;
 let paddleY = canvasH - 10;
 setVariables();
 drawBall();
 drawPaddle();
-startGame();
+// startGame();
