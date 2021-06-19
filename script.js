@@ -7,6 +7,32 @@ const canvasW = canvas.width;
 let rightPressed = false;
 let leftPressed = false;
 
+// Navigate paddle left & right
+const paddleNavigation = () => {
+  const handleKeyDown = (e) => {
+    if (e.key === "ArrowRight") {
+      rightPressed = true;
+    }
+
+    if (e.key === "ArrowLeft") {
+      leftPressed = true;
+    }
+  };
+
+  const handleKeyUp = (e) => {
+    if (e.key === "ArrowRight") {
+      rightPressed = false;
+    }
+
+    if (e.key === "ArrowLeft") {
+      leftPressed = false;
+    }
+  };
+
+  document.addEventListener("keydown", handleKeyDown);
+  document.addEventListener("keyup", handleKeyUp);
+};
+
 const handleKeyDown = (e) => {
   if (e.key === "ArrowRight") {
     rightPressed = true;
@@ -109,7 +135,32 @@ const startGame = () => {
       ctx.clearRect(0, 0, canvasW, canvasH);
       drawBall();
       drawPaddle();
+      drawBricks();
     }, 20);
+  }
+};
+
+let brickW = 50;
+let brickOffset = 10;
+let brickCount = 9;
+
+// stores positions of bricks
+cons let bricks = [];
+
+// Draw bricks
+const drawBricks = () => {
+  // Draw brick vertically
+  for (let j = 1; j <= 3; j++) {
+    // Draw brick horizontally
+    for (let i = 0; i < brickCount; i++) {
+      const brickX = 10 + i * (brickW + brickOffset);
+      const brickY = (brickOffset + 10) * j;
+      ctx.beginPath();
+      ctx.rect(brickX, brickY, brickW, 10);
+      ctx.fillStyle = "#00ead3";
+      ctx.fill();
+      ctx.closePath();
+    }
   }
 };
 
@@ -117,7 +168,6 @@ let x, y, dy, dx, interval, radius, paddleW, paddleX, paddleY;
 setVariables();
 drawBall();
 drawPaddle();
+drawBricks();
+paddleNavigation();
 // startGame();
-
-document.addEventListener("keydown", handleKeyDown);
-document.addEventListener("keyup", handleKeyUp);
