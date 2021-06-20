@@ -52,6 +52,11 @@ const paddleNavigation = () => {
   leftBtn.addEventListener("mousedown", handleLeftButtonDown);
   leftBtn.addEventListener("mouseup", handleLeftButtonUp);
 
+  rightBtn.addEventListener("touchstart", handleRightButtonDown);
+  rightBtn.addEventListener("touchend", handleRightButtonUp);
+  leftBtn.addEventListener("touchstart", handleLeftButtonDown);
+  leftBtn.addEventListener("touchend", handleLeftButtonUp);
+
   document.addEventListener("keydown", handleKeyDown);
   document.addEventListener("keyup", handleKeyUp);
 };
