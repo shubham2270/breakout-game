@@ -1,5 +1,6 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+const scoreP = document.getElementById("score");
 
 const canvasH = canvas.height;
 const canvasW = canvas.width;
@@ -53,6 +54,16 @@ const handleKeyUp = (e) => {
   }
 };
 
+// draws the score
+const drawScore = () => {
+  ctx.beginPath();
+  ctx.fillStyle = "#000";
+  ctx.font = `15px Verdana`;
+  ctx.fill();
+  ctx.fillText(`Score: ${score}`, canvasW - 60, 20);
+  ctx.closePath();
+};
+
 // draws the ball
 const drawBall = () => {
   ctx.beginPath();
@@ -98,16 +109,19 @@ const detectCollision = () => {
     for (let i = 0; i < bricks[b].length; i++) {
       const brick = bricks[b][i];
 
-      console.log("x:", x, "brickX:", brick.x);
-
       // Detect collision with bricks
-      if (
-        x > brick.x &&
-        x < brick.x + brickW &&
-        y > brick.y &&
-        y < brick.y + brickH
-      ) {
-        dy = -dy;
+      if (brick.isVisible) {
+        if (
+          x > brick.x &&
+          x < brick.x + brickW &&
+          y > brick.y &&
+          y < brick.y + brickH
+        ) {
+          bricks[b][i].isVisible = false;
+          score += 1;
+          scoreP.innerText = `Your score is: ${score}`;
+          dy = -dy;
+        }
       }
     }
   }
@@ -156,6 +170,7 @@ const startGame = () => {
       drawBall();
       drawPaddle();
       drawBricks();
+      drawScore();
     }, 20);
   }
 };
@@ -168,32 +183,49 @@ let brickCount = 9;
 // stores positions of bricks
 let bricks = [];
 
-// Draw bricks
-const drawBricks = () => {
+// holds the state of bricks
+const createBrickArray = () => {
   // Draw brick vertically
   for (let j = 0; j < 3; j++) {
     bricks[j] = [];
     // Draw brick horizontally
     for (let i = 0; i < brickCount; i++) {
-      const brickX = 10 + i * (brickW + brickOffset);
-      const brickY = (brickOffset + 10) * (j + 1);
-      // Stores the position of bricks into array
-      bricks[j][i] = { x: brickX, y: brickY };
-
-      ctx.beginPath();
-      ctx.rect(brickX, brickY, brickW, brickH);
-      ctx.fillStyle = "#00ead3";
-      ctx.fill();
-      ctx.closePath();
+      bricks[j][i] = { x: 0, y: 0, isVisible: true };
     }
   }
-  console.log("bricks", bricks);
+};
+
+// Draw bricks
+const drawBricks = () => {
+  // Draw brick vertically
+  for (let j = 0; j < 3; j++) {
+    // Draw brick horizontally
+    for (let i = 0; i < brickCount; i++) {
+      // only draw is isVisible is true
+      if (bricks[j][i].isVisible) {
+        const brickX = 10 + i * (brickW + brickOffset);
+        const brickY = (brickOffset + 10) * (j + 1);
+        // Stores the position of bricks into array
+        bricks[j][i].x = brickX;
+        bricks[j][i].y = brickY;
+
+        ctx.beginPath();
+        ctx.rect(brickX, brickY, brickW, brickH);
+        ctx.fillStyle = "#00ead3";
+        ctx.fill();
+        ctx.closePath();
+      }
+    }
+  }
 };
 
 let x, y, dy, dx, interval, radius, paddleW, paddleX, paddleY;
+let score = 0;
 setVariables();
-drawBall();
 drawPaddle();
+createBrickArray();
 drawBricks();
+drawScore();
+drawBall();
 paddleNavigation();
 // startGame();
