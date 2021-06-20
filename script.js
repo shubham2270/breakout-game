@@ -33,17 +33,21 @@ const paddleNavigation = () => {
   };
 
   const handleRightButtonDown = () => {
+    rightBtn.style.backgroundColor = "#B3E283";
     rightPressed = true;
   };
 
   const handleRightButtonUp = () => {
+    rightBtn.style.backgroundColor = "#e8e46e";
     rightPressed = false;
   };
   const handleLeftButtonDown = () => {
+    leftBtn.style.backgroundColor = "#B3E283";
     leftPressed = true;
   };
 
   const handleLeftButtonUp = () => {
+    leftBtn.style.backgroundColor = "#e8e46e";
     leftPressed = false;
   };
 

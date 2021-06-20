@@ -21,3 +21,33 @@ canvas {
   border-bottom: 3px solid brown;
   border-radius: 8px;
 }
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.controls button {
+  width: 200px;
+  height: 100px;
+  background-color: #e8e46e;
+  border: none;
+  border-radius: 5px;
+  font-size: 3rem;
+  color: #ff616d;
+  margin-left: 50px;
+}
+
+.start {
+  width: 100px;
+  height: 50px;
+  background-color: #d83a56;
+  border: none;
+  border-radius: 5px;
+  color: #ffeac9;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
