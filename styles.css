@@ -1,25 +1,24 @@
 main {
   display: flex;
   width: 100%;
-  height: 100%;
-  justify-content: center;
+  height: 90%;
+  /* justify-content: center; */
   align-items: center;
   flex-direction: column;
-  background-color: rgb(255, 255, 255);
 }
 
 html,
 body {
-  height: 100vh;
+  height: 90vh;
   width: 100vw;
   padding: 0;
   margin: 0;
-  -youbkit-touch-callout: none; /* iOS Safari */
-  -youbkit-user-select: none; /* Chrome 6.0+, Safari 3.1+, Edge & Opera 15+ */
+  user-select: none; /* supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
   -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE 10+ and Edge */
-  user-select: none; /* Non-prefixed version,
-                                currently supported by Chrome and Opera */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  overflow: hidden;
 }
 
 canvas {
@@ -60,10 +59,9 @@ canvas {
 
 .canvasWrapper {
   width: 95%;
-  height: 95%;
+  height: 100%;
   /* background-color: rebeccapurple; */
   display: flex;
   justify-content: center;
   /* padding: 20px; */
-  justify-content: center;
 }
