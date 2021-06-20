@@ -214,7 +214,7 @@ const setVariables = () => {
   rightPressed = false;
   leftPressed = false;
 
-  brickW = 30;
+  brickW = 20;
   brickH = 10;
   brickOffset = 10;
 
