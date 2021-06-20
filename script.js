@@ -252,13 +252,9 @@ const startGame = () => {
       // move paddle left or right & prevent from moving outside canvas
       if (rightPressed && paddleX < canvasW - 50) {
         paddleX = paddleX + 5;
-
-        console.log(paddleX);
       }
       if (leftPressed && paddleX > 0) {
         paddleX = paddleX - 5;
-
-        console.log(paddleX);
       }
       detectCollision();
       x = x + dx;
