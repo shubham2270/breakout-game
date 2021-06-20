@@ -80,6 +80,7 @@ const detectCollision = () => {
   const paddleStart = x + dx > paddleX; // checks starting of paddle
   const paddleEnd = x + dx < paddleX + paddleW; // checks end of paddle
 
+  // Detect collision with paddle
   if (y + dy >= canvasH - radius) {
     if (paddleStart && paddleEnd) {
       dy = -dy;
@@ -87,9 +88,28 @@ const detectCollision = () => {
     }
   }
 
-  // Detect if ball is crossing ceiling of box;
+  // Detect if ball collision with ceiling of box;
   if (y + dy < 0) {
     dy = -dy;
+  }
+
+  // loop over bricks array & get x & y values
+  for (let b = 0; b < bricks.length; b++) {
+    for (let i = 0; i < bricks[b].length; i++) {
+      const brick = bricks[b][i];
+
+      console.log("x:", x, "brickX:", brick.x);
+
+      // Detect collision with bricks
+      if (
+        x > brick.x &&
+        x < brick.x + brickW &&
+        y > brick.y &&
+        y < brick.y + brickH
+      ) {
+        dy = -dy;
+      }
+    }
   }
 };
 
@@ -141,27 +161,33 @@ const startGame = () => {
 };
 
 let brickW = 50;
-let brickOffset = 10;
+let brickH = 10;
+let brickOffset = 10; // gap between bricks
 let brickCount = 9;
 
 // stores positions of bricks
-cons let bricks = [];
+let bricks = [];
 
 // Draw bricks
 const drawBricks = () => {
   // Draw brick vertically
-  for (let j = 1; j <= 3; j++) {
+  for (let j = 0; j < 3; j++) {
+    bricks[j] = [];
     // Draw brick horizontally
     for (let i = 0; i < brickCount; i++) {
       const brickX = 10 + i * (brickW + brickOffset);
-      const brickY = (brickOffset + 10) * j;
+      const brickY = (brickOffset + 10) * (j + 1);
+      // Stores the position of bricks into array
+      bricks[j][i] = { x: brickX, y: brickY };
+
       ctx.beginPath();
-      ctx.rect(brickX, brickY, brickW, 10);
+      ctx.rect(brickX, brickY, brickW, brickH);
       ctx.fillStyle = "#00ead3";
       ctx.fill();
       ctx.closePath();
     }
   }
+  console.log("bricks", bricks);
 };
 
 let x, y, dy, dx, interval, radius, paddleW, paddleX, paddleY;
