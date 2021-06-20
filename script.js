@@ -83,8 +83,10 @@ const drawPaddle = () => {
 };
 
 const detectCollision = () => {
-  // Detect if ball is crossing left or right side of box;
+  // Detect if ball is colliding left or right side of box;
   if (x + dx >= canvasW || x + dx < 0) {
+    paddleHitSound.play();
+
     dx = -dx;
   }
 
@@ -94,6 +96,7 @@ const detectCollision = () => {
   // Detect collision with paddle
   if (y + dy >= canvasH - radius) {
     if (paddleStart && paddleEnd) {
+      wallHitSound.play();
       dy = -dy;
       dx = dx + (x + dx - paddleX) / 100; // send ball to different direction
       //depending on position of paddle
@@ -102,6 +105,8 @@ const detectCollision = () => {
 
   // Detect if ball collision with ceiling of box;
   if (y + dy < 0) {
+    paddleHitSound.play();
+
     dy = -dy;
   }
 
@@ -118,6 +123,7 @@ const detectCollision = () => {
           y > brick.y &&
           y < brick.y + brickH
         ) {
+          brickBreakSound.play();
           bricks[b][i].isVisible = false;
           score += 1;
           scoreP.innerText = `Your score is: ${score}`;
@@ -141,21 +147,28 @@ const setVariables = () => {
   dy = -5;
   rightPressed = false;
   leftPressed = false;
+
+  brickW = 50;
+  brickH = 10;
+  brickOffset = 10;
 };
 
 // check if ball touches bottom of box & give alert of game over
 const checkGameOver = () => {
   if (y === canvasH) {
+    gameOverSound.play();
     alert("Game Over!");
     clearInterval(interval);
     interval = null;
     setVariables();
+    createBrickArray();
   }
 };
 
 // check if ball touches bottom of box & give alert of game over
 const checkYouWon = () => {
   if (score === 27) {
+    youWonSound.play();
     alert("You Won!");
     clearInterval(interval);
     interval = null;
@@ -165,6 +178,7 @@ const checkYouWon = () => {
 
 const startGame = () => {
   if (!interval) {
+    startSound.play();
     interval = setInterval(() => {
       if (rightPressed) {
         paddleX = paddleX + 5;
@@ -187,9 +201,9 @@ const startGame = () => {
   }
 };
 
-let brickW = 50;
-let brickH = 10;
-let brickOffset = 10; // gap between bricks
+// let brickW = 50;
+// let brickH = 10;
+// let brickOffset = 10; // gap between bricks
 let brickCount = 9;
 
 // stores positions of bricks
@@ -230,7 +244,25 @@ const drawBricks = () => {
   }
 };
 
-let x, y, dy, dx, interval, radius, paddleW, paddleX, paddleY;
+const startSound = new Audio("./assets/sounds/begin_game.mp3");
+const brickBreakSound = new Audio("./assets/sounds/brick_break.mp3");
+const gameOverSound = new Audio("./assets/sounds/game_over.mp3");
+const paddleHitSound = new Audio("./assets/sounds/paddle_hit.mp3");
+const wallHitSound = new Audio("./assets/sounds/wall_hit.mp3");
+const youWonSound = new Audio("./assets/sounds/you_won.mp3");
+
+let x,
+  y,
+  dy,
+  dx,
+  interval,
+  radius,
+  paddleW,
+  paddleX,
+  paddleY,
+  brickH,
+  brickW,
+  brickOffset;
 let score = 0;
 setVariables();
 drawPaddle();
