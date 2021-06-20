@@ -91,7 +91,7 @@ const drawScore = () => {
   ctx.fillStyle = "#000";
   ctx.font = `15px Verdana`;
   ctx.fill();
-  ctx.fillText(`Score: ${score}`, canvasW - 60, 20);
+  ctx.fillText(`Score: ${score}`, canvasW - 60, 15);
   ctx.closePath();
 };
 
@@ -178,7 +178,7 @@ const setVariables = () => {
   rightPressed = false;
   leftPressed = false;
 
-  brickW = 50;
+  brickW = 30;
   brickH = 10;
   brickOffset = 10;
 
