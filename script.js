@@ -1,6 +1,8 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-const scoreP = document.getElementById("score");
+
+const leftBtn = document.getElementById("left");
+const rightBtn = document.getElementById("right");
 
 const canvasH = canvas.height;
 const canvasW = canvas.width;
@@ -29,6 +31,26 @@ const paddleNavigation = () => {
       leftPressed = false;
     }
   };
+
+  const handleRightButtonDown = () => {
+    rightPressed = true;
+  };
+
+  const handleRightButtonUp = () => {
+    rightPressed = false;
+  };
+  const handleLeftButtonDown = () => {
+    leftPressed = true;
+  };
+
+  const handleLeftButtonUp = () => {
+    leftPressed = false;
+  };
+
+  rightBtn.addEventListener("mousedown", handleRightButtonDown);
+  rightBtn.addEventListener("mouseup", handleRightButtonUp);
+  leftBtn.addEventListener("mousedown", handleLeftButtonDown);
+  leftBtn.addEventListener("mouseup", handleLeftButtonUp);
 
   document.addEventListener("keydown", handleKeyDown);
   document.addEventListener("keyup", handleKeyUp);
@@ -126,7 +148,6 @@ const detectCollision = () => {
           brickBreakSound.play();
           bricks[b][i].isVisible = false;
           score += 1;
-          scoreP.innerText = `Your score is: ${score}`;
           dy = -dy;
           checkYouWon();
         }
@@ -151,6 +172,8 @@ const setVariables = () => {
   brickW = 50;
   brickH = 10;
   brickOffset = 10;
+
+  score = 0;
 };
 
 // check if ball touches bottom of box & give alert of game over
@@ -173,6 +196,7 @@ const checkYouWon = () => {
     clearInterval(interval);
     interval = null;
     setVariables();
+    createBrickArray();
   }
 };
 
@@ -262,8 +286,9 @@ let x,
   paddleY,
   brickH,
   brickW,
-  brickOffset;
-let score = 0;
+  brickOffset,
+  score;
+
 setVariables();
 drawPaddle();
 createBrickArray();
