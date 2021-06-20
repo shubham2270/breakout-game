@@ -95,7 +95,8 @@ const detectCollision = () => {
   if (y + dy >= canvasH - radius) {
     if (paddleStart && paddleEnd) {
       dy = -dy;
-      //   dx = dx + (x + dx - paddleX) / 100;
+      dx = dx + (x + dx - paddleX) / 100; // send ball to different direction
+      //depending on position of paddle
     }
   }
 
@@ -121,6 +122,7 @@ const detectCollision = () => {
           score += 1;
           scoreP.innerText = `Your score is: ${score}`;
           dy = -dy;
+          checkYouWon();
         }
       }
     }
@@ -145,6 +147,16 @@ const setVariables = () => {
 const checkGameOver = () => {
   if (y === canvasH) {
     alert("Game Over!");
+    clearInterval(interval);
+    interval = null;
+    setVariables();
+  }
+};
+
+// check if ball touches bottom of box & give alert of game over
+const checkYouWon = () => {
+  if (score === 27) {
+    alert("You Won!");
     clearInterval(interval);
     interval = null;
     setVariables();
@@ -185,10 +197,9 @@ let bricks = [];
 
 // holds the state of bricks
 const createBrickArray = () => {
-  // Draw brick vertically
   for (let j = 0; j < 3; j++) {
     bricks[j] = [];
-    // Draw brick horizontally
+
     for (let i = 0; i < brickCount; i++) {
       bricks[j][i] = { x: 0, y: 0, isVisible: true };
     }
