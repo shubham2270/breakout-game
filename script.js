@@ -33,21 +33,21 @@ const paddleNavigation = () => {
   };
 
   const handleRightButtonDown = () => {
-    rightBtn.style.backgroundColor = "#B3E283";
+    // rightBtn.style.backgroundColor = "#B3E283";
     rightPressed = true;
   };
 
   const handleRightButtonUp = () => {
-    rightBtn.style.backgroundColor = "#e8e46e";
+    // rightBtn.style.backgroundColor = "#e8e46e";
     rightPressed = false;
   };
   const handleLeftButtonDown = () => {
-    leftBtn.style.backgroundColor = "#B3E283";
+    // leftBtn.style.backgroundColor = "#B3E283";
     leftPressed = true;
   };
 
   const handleLeftButtonUp = () => {
-    leftBtn.style.backgroundColor = "#e8e46e";
+    // leftBtn.style.backgroundColor = "#e8e46e";
     leftPressed = false;
   };
 
@@ -161,7 +161,7 @@ const detectCollision = () => {
   const paddleEnd = x + dx < paddleX + paddleW; // checks end of paddle
 
   // Detect collision with paddle
-  if (y + dy >= canvasH - radius) {
+  if (y + dy >= canvasH - radius - 4) {
     if (paddleStart && paddleEnd) {
       wallHitSound.play();
       dy = -dy;
@@ -185,10 +185,10 @@ const detectCollision = () => {
       // Detect collision with bricks
       if (brick.isVisible) {
         if (
-          x > brick.x &&
-          x < brick.x + brickW &&
-          y > brick.y &&
-          y < brick.y + brickH
+          x >= brick.x &&
+          x <= brick.x + brickW &&
+          y >= brick.y &&
+          y <= brick.y + brickH
         ) {
           brickBreakSound.play();
           bricks[b][i].isVisible = false;
@@ -204,13 +204,13 @@ const detectCollision = () => {
 // Set the starting position of ball & default distance it will travel
 const setVariables = () => {
   x = canvasW / 2;
-  y = canvasH - 20;
-  radius = 10;
+  y = canvasH - 18;
+  radius = 8;
   paddleW = 50;
-  paddleX = canvasW / 2 - 40;
+  paddleX = canvasW / 2 - 25;
   paddleY = canvasH - 10;
-  dx = 5; //small increment in pixels
-  dy = -5;
+  dx = 7; //small increment in pixels
+  dy = -7;
   rightPressed = false;
   leftPressed = false;
 
@@ -223,7 +223,7 @@ const setVariables = () => {
 
 // check if ball touches bottom of box & give alert of game over
 const checkGameOver = () => {
-  if (y === canvasH) {
+  if (y >= canvasH) {
     gameOverSound.play();
     alert("Game Over!");
     clearInterval(interval);
