@@ -209,8 +209,8 @@ const setVariables = () => {
   paddleW = 50;
   paddleX = canvasW / 2 - 25;
   paddleY = canvasH - 10;
-  dx = 7; //small increment in pixels
-  dy = -7;
+  dx = 3; //small increment in pixels
+  dy = -3;
   rightPressed = false;
   leftPressed = false;
 
